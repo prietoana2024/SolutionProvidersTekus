@@ -10,6 +10,7 @@
     <ProjectReference Include="..\ProvidersTekus.DAL\ProvidersTekus.DAL.csproj" />
     <ProjectReference Include="..\ProvidersTekus.DTO\ProvidersTekus.DTO.csproj" />
     <ProjectReference Include="..\ProvidersTekus.MODELS\ProvidersTekus.MODELS.csproj" />
+    <ProjectReference Include="..\ProvidersTekus.UTILITY\ProvidersTekus.UTILITY.csproj" />
   </ItemGroup>
 
 </Project>

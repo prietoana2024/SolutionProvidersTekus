@@ -2,6 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProvidersTekus.DAL.DBContext;
+using ProvidersTekus.DLL.Services;
+using ProvidersTekus.DLL.Services.Contrato;
+using ProvidersTekus.UTILITY;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +21,13 @@ namespace ProvidersTekus.IOC
             {
                 options.UseSqlServer(configuration.GetConnectionString("cadenaSQL"));
             });
+
+            services.AddAutoMapper(typeof(AutoMapperProfile));
+            services.AddScoped<ICampoPersonalizadoService, CampoPersonalizadoService>();
+            services.AddScoped<IProveedorService, ProveedorService>();
+
+            services.AddScoped<DbContext, BdprovidersContext>();
+
 
         }
 

@@ -7,7 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProvidersTekus.DAL\ProvidersTekus.DAL.csproj" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProvidersTekus.DLL\ProvidersTekus.DLL.csproj" />
+    <ProjectReference Include="..\ProvidersTekus.DTO\ProvidersTekus.DTO.csproj" />
+    <ProjectReference Include="..\ProvidersTekus.IOC\ProvidersTekus.IOC.csproj" />
   </ItemGroup>
 
 </Project>
