@@ -3,7 +3,55 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36518.9 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvidersTekus.API", "ProvidersTekus.API\ProvidersTekus.API.csproj", "{48A5E57B-4190-47DE-8E4F-3D75534668DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvidersTekus.DAL", "ProvidersTekus.DAL\ProvidersTekus.DAL.csproj", "{D1FD6C27-A5A0-4E21-BF49-A96228D1F147}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvidersTekus.DLL", "ProvidersTekus.DLL\ProvidersTekus.DLL.csproj", "{3509296B-B91C-4993-AD6C-B266ED0B4A15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvidersTekus.DTO", "ProvidersTekus.DTO\ProvidersTekus.DTO.csproj", "{CFD8B4B5-F5BF-4EA6-932E-83C270D6AF8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvidersTekus.MODELS", "ProvidersTekus.MODELS\ProvidersTekus.MODELS.csproj", "{FEE146D3-2795-4B41-B889-DE681E6E4AD6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvidersTekus.IOC", "ProvidersTekus.IOC\ProvidersTekus.IOC.csproj", "{5D2B5205-6932-443A-A5D1-98C29CBBDAAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvidersTekus.UTILITY", "ProvidersTekus.UTILITY\ProvidersTekus.UTILITY.csproj", "{C0FBEE31-04E9-4AD1-B619-A6416191861C}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{48A5E57B-4190-47DE-8E4F-3D75534668DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48A5E57B-4190-47DE-8E4F-3D75534668DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48A5E57B-4190-47DE-8E4F-3D75534668DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48A5E57B-4190-47DE-8E4F-3D75534668DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1FD6C27-A5A0-4E21-BF49-A96228D1F147}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1FD6C27-A5A0-4E21-BF49-A96228D1F147}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1FD6C27-A5A0-4E21-BF49-A96228D1F147}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1FD6C27-A5A0-4E21-BF49-A96228D1F147}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3509296B-B91C-4993-AD6C-B266ED0B4A15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3509296B-B91C-4993-AD6C-B266ED0B4A15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3509296B-B91C-4993-AD6C-B266ED0B4A15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3509296B-B91C-4993-AD6C-B266ED0B4A15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFD8B4B5-F5BF-4EA6-932E-83C270D6AF8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFD8B4B5-F5BF-4EA6-932E-83C270D6AF8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFD8B4B5-F5BF-4EA6-932E-83C270D6AF8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFD8B4B5-F5BF-4EA6-932E-83C270D6AF8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEE146D3-2795-4B41-B889-DE681E6E4AD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEE146D3-2795-4B41-B889-DE681E6E4AD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEE146D3-2795-4B41-B889-DE681E6E4AD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEE146D3-2795-4B41-B889-DE681E6E4AD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D2B5205-6932-443A-A5D1-98C29CBBDAAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D2B5205-6932-443A-A5D1-98C29CBBDAAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D2B5205-6932-443A-A5D1-98C29CBBDAAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D2B5205-6932-443A-A5D1-98C29CBBDAAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0FBEE31-04E9-4AD1-B619-A6416191861C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0FBEE31-04E9-4AD1-B619-A6416191861C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0FBEE31-04E9-4AD1-B619-A6416191861C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0FBEE31-04E9-4AD1-B619-A6416191861C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
