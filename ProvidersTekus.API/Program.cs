@@ -2,6 +2,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddDbContext<B>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("cadenaSQL"));
+});
+
 builder.Services.AddControllers();
 
 var app = builder.Build();
