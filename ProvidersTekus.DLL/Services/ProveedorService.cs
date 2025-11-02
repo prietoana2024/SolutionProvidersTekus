@@ -32,6 +32,8 @@ namespace ProvidersTekus.DLL.Services
 
             if (proveedor == null) return false;
 
+            proveedor.Nit=dto.Nit;
+          //  proveedor.ProveedorServicios = dto.Servicios
             proveedor.Nombre = dto.Nombre;
             proveedor.Email = dto.Email;
 
@@ -99,7 +101,9 @@ namespace ProvidersTekus.DLL.Services
         {
             var proveedor = new Proveedore
             {
+                Nit=dto.Nit,
                 Nombre = dto.Nombre,
+             //   ProveedorServicios=dto.Servicios,
                 Email = dto.Email,
                 FechaCreacion = DateTime.UtcNow
             };

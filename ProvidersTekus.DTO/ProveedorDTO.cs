@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProvidersTekus.MODELS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,10 @@ namespace ProvidersTekus.DTO
 
         public string Nombre { get; set; }
         public string Email { get; set; }
+
         public Dictionary<string, string> CamposPersonalizados { get; set; }
+
+        public List<Servicio> Servicios;
 
     }
 }
