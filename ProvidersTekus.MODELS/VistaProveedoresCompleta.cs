@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ProvidersTekus.MODELS;
 
-public partial class VistaProveedoresCompletum
+public partial class VistaProveedoresCompleta
 {
     public int ProveedorId { get; set; }
 

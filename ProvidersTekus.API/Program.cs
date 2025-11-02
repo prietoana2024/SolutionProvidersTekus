@@ -1,8 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using ProvidersTekus.DAL.DBContext;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddDbContext<B>(options =>
+builder.Services.AddDbContext<BdprovidersContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("cadenaSQL"));
 });

@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ProvidersTekus.MODELS\ProvidersTekus.MODELS.csproj" />
+  </ItemGroup>
+
 </Project>

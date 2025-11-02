@@ -26,7 +26,7 @@ public partial class BdprovidersContext : DbContext
 
     public virtual DbSet<Servicio> Servicios { get; set; }
 
-    public virtual DbSet<VistaProveedoresCompletum> VistaProveedoresCompleta { get; set; }
+    public virtual DbSet<VistaProveedoresCompleta> VistaProveedoresCompleta { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
 
@@ -100,7 +100,7 @@ public partial class BdprovidersContext : DbContext
             entity.Property(e => e.ValorHora).HasColumnType("decimal(10, 2)");
         });
 
-        modelBuilder.Entity<VistaProveedoresCompletum>(entity =>
+        modelBuilder.Entity<VistaProveedoresCompleta>(entity =>
         {
             entity
                 .HasNoKey()
