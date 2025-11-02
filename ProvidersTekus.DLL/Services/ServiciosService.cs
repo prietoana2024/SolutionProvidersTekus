@@ -19,14 +19,12 @@ namespace ProvidersTekus.DLL.Services
         private readonly IGenericRepository<Servicio> _servicioRepositorio;
         private readonly IMapper _mapper;
 
-        private readonly string? _dataBase;
         private readonly IMemoryCache _cache;
 
-        public ServiciosService(IGenericRepository<Servicio> servicioRepositorio, IMapper mapper, string? dataBase, IMemoryCache cache)
+        public ServiciosService(IGenericRepository<Servicio> servicioRepositorio, IMapper mapper, IMemoryCache cache)
         {
             _servicioRepositorio = servicioRepositorio;
             _mapper = mapper;
-            _dataBase = dataBase;
             _cache = cache;
         }
 
