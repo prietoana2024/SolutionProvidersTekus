@@ -14,6 +14,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SP = ProvidersTekus.DTO.Variables.Procedures;
+using Dapper;
+
 
 
 namespace ProvidersTekus.DLL.Services
@@ -185,19 +187,16 @@ namespace ProvidersTekus.DLL.Services
             };
         }
 
-        public async Task<List<ProveedorDTO>> ProviderForCountries(string terminal)
+        public async Task<List<ProveedorDTO>> ProviderForCountries()
         {
-            var args = new
-            {
-                terminal = terminal
-            };
+            
             using var conn = new SqlConnection(_dataBase);
-            var placas = (await conn.QueryAsync<Proveedore>(SP.SP_COUNT_CLIENTS_FOR_COUNTRIES, args, commandType: CommandType.StoredProcedure)).FirstOrDefault();
+            var providers = (await conn.QueryAsync<Proveedore>(SP.SP_COUNT_CLIENTS_FOR_COUNTRIES, commandType: CommandType.StoredProcedure)).FirstOrDefault();
 
             await conn.CloseAsync();
             await conn.DisposeAsync();
 
-            return _mapper.Map<List<Proveedore>>(placas);
+            return _mapper.Map<List<ProveedorDTO>>(providers);
         }
     }
 }

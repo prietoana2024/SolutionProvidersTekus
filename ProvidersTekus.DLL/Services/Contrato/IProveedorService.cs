@@ -15,5 +15,9 @@ namespace ProvidersTekus.DLL.Services.Contrato
         Task<Proveedore> CrearAsync(ProveedorDTO dto);
         Task<bool> ActualizarAsync(int id, ProveedorDTO dto);
         Task<bool> EliminarAsync(int id);
+
+
+         Task<List<ProveedorDTO>> ProviderForCountries();
+
     }
 }

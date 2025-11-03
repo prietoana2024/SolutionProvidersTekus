@@ -123,19 +123,16 @@ namespace ProvidersTekus.DLL.Services
             }
         }
 
-        public async Task<List<ServicioDTO>> ServicesForCountries(string terminal)
+        public async Task<List<ServicioDTO>> ServicesForCountries()
         {
-            var args = new
-            {
-                terminal = terminal
-            };
+            
             using var conn = new SqlConnection(_dataBase);
-            var placas = (await conn.QueryAsync<Servicio>(SP.SP_COUNT_SERVICES, args, commandType: CommandType.StoredProcedure)).FirstOrDefault();
+            var servicios = (await conn.QueryAsync<Servicio>(SP.SP_COUNT_SERVICES, commandType: CommandType.StoredProcedure)).FirstOrDefault();
 
             await conn.CloseAsync();
             await conn.DisposeAsync();
 
-            return _mapper.Map<List<ServicioDTO>>(placas);
+            return _mapper.Map<List<ServicioDTO>>(servicios);
         }
 
     }
