@@ -16,7 +16,7 @@ namespace ProvidersTekus.DLL.Services.Contrato
         Task<bool> Editar(ServicioDTO modelo);
         Task<bool> Eliminar(int id);
 
-        Task<List<ServicioDTO>> ServicesForCountries();
+        Task<List<CountServicesDTO>> ServicesForCountries();
 
 
 

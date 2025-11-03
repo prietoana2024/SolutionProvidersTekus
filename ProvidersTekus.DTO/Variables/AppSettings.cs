@@ -4,11 +4,7 @@
     {
         public static bool IsProduction { get; set; }
 
-        public static string DB_CONNECTION { get {
-                if (IsProduction)
-                    return "DbConnection";
-                else
-                    return "DbConnectionDev";
-            } }
+        public static string DB_CONNECTION => "cadenaSQL";
+
     }
 }

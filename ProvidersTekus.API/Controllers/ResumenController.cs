@@ -24,7 +24,7 @@ namespace ProvidersTekus.API.Controllers
 
         public async Task<IActionResult> ServicesForContries()
         {
-            var rsp = new Utilidad.Response<List<ServicioDTO>>();
+            var rsp = new Utilidad.Response<List<CountServicesDTO>>();
 
             try
             {
@@ -46,7 +46,7 @@ namespace ProvidersTekus.API.Controllers
 
         public async Task<IActionResult> ProvidersForContries()
         {
-            var rsp = new Utilidad.Response<List<ProveedorDTO>>();
+            var rsp = new Utilidad.Response<List<CountProvidersForCountriesDTO>>();
 
             try
             {

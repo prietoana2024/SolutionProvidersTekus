@@ -187,16 +187,17 @@ namespace ProvidersTekus.DLL.Services
             };
         }
 
-        public async Task<List<ProveedorDTO>> ProviderForCountries()
+        public async Task<List<CountProvidersForCountriesDTO>> ProviderForCountries()
         {
+
             
             using var conn = new SqlConnection(_dataBase);
-            var providers = (await conn.QueryAsync<Proveedore>(SP.SP_COUNT_CLIENTS_FOR_COUNTRIES, commandType: CommandType.StoredProcedure)).FirstOrDefault();
+            var providers = await conn.QueryAsync<CountProvidersForCountriesDTO>(SP.SP_COUNT_CLIENTS_FOR_COUNTRIES, commandType: CommandType.StoredProcedure);
 
             await conn.CloseAsync();
             await conn.DisposeAsync();
 
-            return _mapper.Map<List<ProveedorDTO>>(providers);
+            return _mapper.Map<List<CountProvidersForCountriesDTO>>(providers);
         }
     }
 }

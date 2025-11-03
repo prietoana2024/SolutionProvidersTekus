@@ -32,7 +32,8 @@ namespace ProvidersTekus.DLL.Services
 
         public ServiciosService(IGenericRepository<Servicio> servicioRepositorio, IMapper mapper, IMemoryCache cache, IConfiguration configuration)
         {
-            _dataBase = configuration.GetConnectionString(AppSettings.DB_CONNECTION);
+            _dataBase = configuration.GetConnectionString(AppSettings.DB_CONNECTION)
+                               ?? throw new InvalidOperationException("No se encontró la cadena de conexión en appsettings.json.");
             _servicioRepositorio = servicioRepositorio;
             _mapper = mapper;
             _cache = cache;
@@ -123,16 +124,18 @@ namespace ProvidersTekus.DLL.Services
             }
         }
 
-        public async Task<List<ServicioDTO>> ServicesForCountries()
+        public async Task<List<CountServicesDTO>> ServicesForCountries()
         {
             
             using var conn = new SqlConnection(_dataBase);
-            var servicios = (await conn.QueryAsync<Servicio>(SP.SP_COUNT_SERVICES, commandType: CommandType.StoredProcedure)).FirstOrDefault();
-
+            var servicios = await conn.QueryAsync<CountServicesDTO>(
+                SP.SP_COUNT_SERVICES,
+                commandType: CommandType.StoredProcedure
+            );
             await conn.CloseAsync();
             await conn.DisposeAsync();
 
-            return _mapper.Map<List<ServicioDTO>>(servicios);
+            return _mapper.Map<List<CountServicesDTO>>(servicios);
         }
 
     }
