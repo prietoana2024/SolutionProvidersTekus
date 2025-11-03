@@ -1,14 +1,17 @@
 ﻿using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ProvidersTekus.API.Utilidad;
 using ProvidersTekus.DLL.Services.Contrato;
 using ProvidersTekus.DTO;
-using ProvidersTekus.API.Utilidad;
 
 namespace ProvidersTekus.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class ServiciosController : ControllerBase
     {
         private readonly IServiciosService _serviciosServicio;

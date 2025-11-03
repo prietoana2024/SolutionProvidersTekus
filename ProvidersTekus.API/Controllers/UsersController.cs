@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProvidersTekus.DLL.Services.Contrato;
 using ProvidersTekus.DTO;
@@ -7,6 +8,8 @@ namespace ProvidersTekus.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class UsersController : ControllerBase
     {
         private readonly IUsuarioService _usuarioServicio;
@@ -36,27 +39,27 @@ namespace ProvidersTekus.API.Controllers
             //TODAS LOS SOLICITUDES SERÁN RESPUESTAS EXITOSAS
             return Ok(rsp);
         }
-        [HttpPost]
-        [Route("Guardar")]
+        //[HttpPost]
+        //[Route("Guardar")]
 
-        public async Task<IActionResult> Guardar([FromBody] UsuarioDTO estado)
-        {
-            var rsp = new Utilidad.Response<UsuarioDTO>();
+        //public async Task<IActionResult> Guardar([FromBody] UsuarioDTO estado)
+        //{
+        //    var rsp = new Utilidad.Response<UsuarioDTO>();
 
-            try
-            {
-                rsp.Status = true;
-                rsp.Value = await _usuarioServicio.Crear(estado);
-            }
+        //    try
+        //    {
+        //        rsp.Status = true;
+        //        rsp.Value = await _usuarioServicio.Crear(estado);
+        //    }
 
-            catch (Exception ex)
-            {
-                rsp.Status = false;
-                rsp.Msg = ex.Message;
-            }
-            //TODAS LOS SOLICITUDES SERÁN RESPUESTAS EXITOSAS
-            return Ok(rsp);
-        }
+        //    catch (Exception ex)
+        //    {
+        //        rsp.Status = false;
+        //        rsp.Msg = ex.Message;
+        //    }
+        //    //TODAS LOS SOLICITUDES SERÁN RESPUESTAS EXITOSAS
+        //    return Ok(rsp);
+        //}
         [HttpPut]
         [Route("Editar")]
         public async Task<IActionResult> Editar([FromBody] UsuarioDTO estado)

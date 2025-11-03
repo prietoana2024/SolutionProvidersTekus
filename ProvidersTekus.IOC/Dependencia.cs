@@ -12,9 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Http; // ✅ AGREGAR ESTA LÍNEA
-
-
+using Microsoft.Extensions.Http;
+using Microsoft.Extensions.Options;
 namespace ProvidersTekus.IOC
 {
     public static class Dependencia
@@ -25,6 +24,10 @@ namespace ProvidersTekus.IOC
             {
                 options.UseSqlServer(configuration.GetConnectionString("cadenaSQL"));
             });
+            services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+            services.AddSingleton(resolver =>
+                resolver.GetRequiredService<IOptions<JwtSettings>>().Value);
+
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddMemoryCache();
 
@@ -35,6 +38,7 @@ namespace ProvidersTekus.IOC
             services.AddScoped<IProveedorService, ProveedorService>();
             services.AddScoped<IServiciosService, ServiciosService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
+            services.AddScoped<IAuthService, AuthService>();
 
             services.AddScoped<DbContext, BdprovidersContext>();
             services.AddHttpClient<CountryLayerService>();

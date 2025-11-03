@@ -1,14 +1,20 @@
 ﻿using AutoMapper;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using ProvidersTekus.DAL.DBContext;
 using ProvidersTekus.DLL.Services.Contrato;
 using ProvidersTekus.DTO;
+using ProvidersTekus.DTO.Variables;
 using ProvidersTekus.MODELS;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SP = ProvidersTekus.DTO.Variables.Procedures;
+
 
 namespace ProvidersTekus.DLL.Services
 {
@@ -17,9 +23,13 @@ namespace ProvidersTekus.DLL.Services
 
         private readonly BdprovidersContext _context;
         private readonly IMapper _mapper;
+        private readonly string? _dataBase;
 
-        public ProveedorService(BdprovidersContext context, IMapper mapper)
+
+        public ProveedorService(BdprovidersContext context, IMapper mapper, IConfiguration configuration)
         {
+            _dataBase = configuration.GetConnectionString(AppSettings.DB_CONNECTION);
+
             _context = context;
             _mapper = mapper;
         }
@@ -173,6 +183,21 @@ namespace ProvidersTekus.DLL.Services
                 CamposDisponibles = camposDisponibles,
                 Proveedores = resultado
             };
+        }
+
+        public async Task<List<ProveedorDTO>> ProviderForCountries(string terminal)
+        {
+            var args = new
+            {
+                terminal = terminal
+            };
+            using var conn = new SqlConnection(_dataBase);
+            var placas = (await conn.QueryAsync<Proveedore>(SP.SP_COUNT_CLIENTS_FOR_COUNTRIES, args, commandType: CommandType.StoredProcedure)).FirstOrDefault();
+
+            await conn.CloseAsync();
+            await conn.DisposeAsync();
+
+            return _mapper.Map<List<Proveedore>>(placas);
         }
     }
 }

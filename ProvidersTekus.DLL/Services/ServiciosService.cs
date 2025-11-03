@@ -1,14 +1,21 @@
 ﻿using AutoMapper;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
 using ProvidersTekus.DAL.Repository.Interfaces;
 using ProvidersTekus.DLL.Services.Contrato;
 using ProvidersTekus.DTO;
+using ProvidersTekus.DTO.Variables;
 using ProvidersTekus.MODELS;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SP = ProvidersTekus.DTO.Variables.Procedures;
+using Dapper;
+
 
 namespace ProvidersTekus.DLL.Services
 {
@@ -17,12 +24,15 @@ namespace ProvidersTekus.DLL.Services
 
 
         private readonly IGenericRepository<Servicio> _servicioRepositorio;
+        private readonly string? _dataBase;
+
         private readonly IMapper _mapper;
 
         private readonly IMemoryCache _cache;
 
-        public ServiciosService(IGenericRepository<Servicio> servicioRepositorio, IMapper mapper, IMemoryCache cache)
+        public ServiciosService(IGenericRepository<Servicio> servicioRepositorio, IMapper mapper, IMemoryCache cache, IConfiguration configuration)
         {
+            _dataBase = configuration.GetConnectionString(AppSettings.DB_CONNECTION);
             _servicioRepositorio = servicioRepositorio;
             _mapper = mapper;
             _cache = cache;
@@ -111,6 +121,21 @@ namespace ProvidersTekus.DLL.Services
             {
                 throw;
             }
+        }
+
+        public async Task<List<ServicioDTO>> ServicesForCountries(string terminal)
+        {
+            var args = new
+            {
+                terminal = terminal
+            };
+            using var conn = new SqlConnection(_dataBase);
+            var placas = (await conn.QueryAsync<Servicio>(SP.SP_COUNT_SERVICES, args, commandType: CommandType.StoredProcedure)).FirstOrDefault();
+
+            await conn.CloseAsync();
+            await conn.DisposeAsync();
+
+            return _mapper.Map<List<ServicioDTO>>(placas);
         }
 
     }

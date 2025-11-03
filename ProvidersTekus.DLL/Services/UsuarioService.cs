@@ -41,23 +41,23 @@ namespace ProvidersTekus.DLL.Services
             }
         }
 
-        public async Task<UsuarioDTO> Crear(UsuarioDTO modelo)
-        {
-            try
-            {
-                var usuarioCreate = await _usuarioRepositorio.Create(_mapper.Map<Usuario>(modelo));
-                if (usuarioCreate.Id == 0)
-                {
-                    throw new TaskCanceledException("No se pudo crear el banco");
-                }
-                return _mapper.Map<UsuarioDTO>(usuarioCreate);
+        //public async Task<UsuarioDTO> Crear(UsuarioDTO modelo)
+        //{
+        //    try
+        //    {
+        //        var usuarioCreate = await _usuarioRepositorio.Create(_mapper.Map<Usuario>(modelo));
+        //        if (usuarioCreate.Id == 0)
+        //        {
+        //            throw new TaskCanceledException("No se pudo crear el banco");
+        //        }
+        //        return _mapper.Map<UsuarioDTO>(usuarioCreate);
 
-            }
-            catch
-            {
-                throw;
-            }
-        }
+        //    }
+        //    catch
+        //    {
+        //        throw;
+        //    }
+        //}
 
         public async Task<bool> Editar(UsuarioDTO modelo)
         {

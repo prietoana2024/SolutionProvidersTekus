@@ -10,7 +10,7 @@ namespace ProvidersTekus.DLL.Services.Contrato
     public interface IUsuarioService
     {
         Task<List<UsuarioDTO>> Lista();
-        Task<UsuarioDTO> Crear(UsuarioDTO modelo);
+       // Task<UsuarioDTO> Crear(UsuarioDTO modelo);
         Task<bool> Editar(UsuarioDTO modelo);
         Task<bool> Eliminar(int id);
     }
