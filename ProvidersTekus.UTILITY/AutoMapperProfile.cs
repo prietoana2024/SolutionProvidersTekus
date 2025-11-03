@@ -37,6 +37,11 @@ namespace ProvidersTekus.UTILITY
                destino.Nombre,
                opt => opt.MapFrom(origen => origen.NombreProveedor));
             #endregion Servicio
+            #region Usuario
+            CreateMap<Usuario, UsuarioDTO>().ReverseMap();
+            #endregion Usuario
+
+
 
 
         }

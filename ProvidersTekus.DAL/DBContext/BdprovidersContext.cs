@@ -26,6 +26,9 @@ public partial class BdprovidersContext : DbContext
 
     public virtual DbSet<Servicio> Servicios { get; set; }
 
+    public virtual DbSet<Usuario> Usuarios { get; set; }
+
+
     public virtual DbSet<VistaProveedoresCompleta> VistaProveedoresCompleta { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
@@ -98,6 +101,15 @@ public partial class BdprovidersContext : DbContext
             entity.Property(e => e.Nombre).HasMaxLength(200);
             entity.Property(e => e.Paises).HasMaxLength(200);
             entity.Property(e => e.ValorHora).HasColumnType("decimal(10, 2)");
+        });
+
+        modelBuilder.Entity<Usuario>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Usuarios__3214EC07708E16A7");
+
+            entity.Property(e => e.Email).HasMaxLength(200);
+            entity.Property(e => e.Nombre).HasMaxLength(50);
+            entity.Property(e => e.Pwd).HasMaxLength(200);
         });
 
         modelBuilder.Entity<VistaProveedoresCompleta>(entity =>

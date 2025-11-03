@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Http; // ✅ AGREGAR ESTA LÍNEA
+
 
 namespace ProvidersTekus.IOC
 {
@@ -27,11 +29,16 @@ namespace ProvidersTekus.IOC
             services.AddMemoryCache();
 
 
+
             services.AddAutoMapper(typeof(AutoMapperProfile));
             services.AddScoped<ICampoPersonalizadoService, CampoPersonalizadoService>();
             services.AddScoped<IProveedorService, ProveedorService>();
             services.AddScoped<IServiciosService, ServiciosService>();
+            services.AddScoped<IUsuarioService, UsuarioService>();
+
             services.AddScoped<DbContext, BdprovidersContext>();
+            services.AddHttpClient<CountryLayerService>();
+
 
 
         }
