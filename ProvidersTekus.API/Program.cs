@@ -88,10 +88,11 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("NuevaPolitica", app =>
     {
-        app.WithOrigins(
-            "https://providers.visualcodevelopment.com/",
-            "http://providers.visualcodevelopment.com/"
-        );
+        //app.WithOrigins(
+        //    "https://providers.visualcodevelopment.com/",
+        //    "http://providers.visualcodevelopment.com/"
+        //);
+        app.AllowAnyOrigin();
         app.AllowAnyHeader();
         app.AllowAnyMethod();
         // app.AllowCredentials();
