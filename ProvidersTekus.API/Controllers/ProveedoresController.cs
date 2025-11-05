@@ -10,6 +10,7 @@ namespace ProvidersTekus.API.Controllers
     [ApiController]
     [Authorize]
 
+
     public class ProveedoresController : ControllerBase
     {
 

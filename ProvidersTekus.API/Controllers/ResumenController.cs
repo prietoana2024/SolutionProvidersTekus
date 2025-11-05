@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProvidersTekus.DLL.Services.Contrato;
 using ProvidersTekus.DTO;
@@ -7,6 +8,8 @@ namespace ProvidersTekus.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class ResumenController : ControllerBase
     {
         private readonly IServiciosService _serviciosServicio;

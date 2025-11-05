@@ -115,7 +115,7 @@ namespace ProvidersTekus.DLL.Services
             {
                 Nit=dto.Nit,
                 Nombre = dto.Nombre,
-             //   ProveedorServicios=dto.Servicios,
+             //ProveedorServicios=dto.Servicios,
                 Email = dto.Email,
                 FechaCreacion = DateTime.UtcNow
             };

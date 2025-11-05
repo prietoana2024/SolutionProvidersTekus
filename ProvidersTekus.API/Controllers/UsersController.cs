@@ -10,6 +10,7 @@ namespace ProvidersTekus.API.Controllers
     [ApiController]
     [Authorize]
 
+
     public class UsersController : ControllerBase
     {
         private readonly IUsuarioService _usuarioServicio;
