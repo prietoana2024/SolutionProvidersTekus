@@ -75,8 +75,8 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
 
-        ValidIssuer = jwtSettings["Issuer"],        // 👈 Debe ser "ProvidersTekus"
-        ValidAudience = jwtSettings["Audience"],    // 👈 Debe ser "ProvidersTekusUsers"
+        ValidIssuer = jwtSettings["Issuer"],        
+        ValidAudience = jwtSettings["Audience"],    
         IssuerSigningKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(jwtSettings["Key"])
         )
@@ -88,7 +88,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("NuevaPolitica", app =>
     {
-        app.AllowAnyOrigin();
+        app.WithOrigins(
+            "https://providers.visualcodevelopment.com/",
+            "http://providers.visualcodevelopment.com/"
+        );
         app.AllowAnyHeader();
         app.AllowAnyMethod();
         // app.AllowCredentials();

@@ -1,0 +1,275 @@
+CREATE DATABASE BDProviders
+
+
+USE  BDProviders
+
+CREATE TABLE Usuarios (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Nombre NVARCHAR(50) NOT NULL,
+    Email NVARCHAR(200) NOT NULL,
+    Pwd NVARCHAR(200) NOT NULL,
+);
+
+INSERT INTO Usuarios (Nombre, Email, Pwd) VALUES 
+('Juan Pérez', 'juan.perez@example.com', 'Pass123!'),
+('María González', 'maria.gonzalez@example.com', 'Maria2024*'),
+('Carlos Rodríguez', 'carlos.rodriguez@example.com', 'Carlos#456'),
+('Ana Martínez', 'ana.martinez@example.com', 'Ana789$');
+
+
+
+-- Tabla: Proveedores (tabla principal, sin cambios)
+CREATE TABLE Proveedores (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+	Nit NVARCHAR(200) NOT NULL,
+    Nombre NVARCHAR(200) NOT NULL,
+    Email NVARCHAR(200) NOT NULL,
+    FechaCreacion DATETIME2 NOT NULL DEFAULT GETUTCDATE()
+);
+
+CREATE TABLE Servicios (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Nombre NVARCHAR(200) NOT NULL,
+    ValorHora DECIMAL(10,2) NOT NULL,
+    Paises NVARCHAR(200) NOT NULL
+);
+
+CREATE TABLE ProveedorServicios (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    ProveedorId INT NOT NULL,
+    ServicioId INT NOT NULL
+
+    CONSTRAINT FK_ProveedorServicios_Proveedor 
+        FOREIGN KEY (ProveedorId) REFERENCES Proveedores(Id),
+
+    CONSTRAINT FK_ProveedorServicios_Servicio 
+        FOREIGN KEY (ServicioId) REFERENCES Servicios(Id),
+
+    CONSTRAINT UQ_ProveedorServicio UNIQUE (ProveedorId, ServicioId)
+);
+
+-- Tabla: CamposPersonalizados (define qué columnas existen)
+CREATE TABLE CamposPersonalizados (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    NombreCampo NVARCHAR(100) NOT NULL UNIQUE,  -- "telefono", "direccion"
+    Etiqueta NVARCHAR(200) NOT NULL,             -- "Teléfono", "Dirección" 
+    TipoDato NVARCHAR(50) NOT NULL,              -- "texto", "numero", "email", "fecha"
+    Requerido BIT NOT NULL DEFAULT 0,
+    Orden INT NOT NULL,
+    Activo BIT NOT NULL DEFAULT 1,
+    FechaCreacion DATETIME2 NOT NULL DEFAULT GETUTCDATE()
+);
+
+-- Tabla: ProveedorCamposValores (almacena los valores)
+CREATE TABLE ProveedorCamposValores (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    ProveedorId INT NOT NULL,
+    CampoPersonalizadoId INT NOT NULL,
+    Valor NVARCHAR(MAX),
+    
+    CONSTRAINT FK_ProveedorCamposValores_Proveedores 
+        FOREIGN KEY (ProveedorId) REFERENCES Proveedores(Id) ON DELETE CASCADE,
+    
+    CONSTRAINT FK_ProveedorCamposValores_CamposPersonalizados 
+        FOREIGN KEY (CampoPersonalizadoId) REFERENCES CamposPersonalizados(Id) ON DELETE CASCADE,
+    
+    -- Evitar duplicados: un proveedor no puede tener el mismo campo dos veces
+    CONSTRAINT UQ_ProveedorCampo UNIQUE (ProveedorId, CampoPersonalizadoId)
+);
+
+-- Índices para performance
+CREATE INDEX IX_ProveedorCamposValores_ProveedorId 
+    ON ProveedorCamposValores(ProveedorId);
+
+CREATE INDEX IX_ProveedorCamposValores_CampoPersonalizadoId 
+    ON ProveedorCamposValores(CampoPersonalizadoId);
+
+-- ============================================
+-- DATOS DE EJEMPLO
+-- ============================================
+
+-- Insertar proveedores de ejemplo
+INSERT INTO Proveedores (Nit,Nombre, Email) VALUES
+('811040812-2','Acme Corp', 'contacto@acme.com'),
+('811040813-2','Global Services', 'info@global.com'),
+('811040814-2','Tech Solutions', 'ventas@tech.com');
+
+-- Crear campos personalizados
+INSERT INTO CamposPersonalizados (NombreCampo, Etiqueta, TipoDato, Requerido, Orden) VALUES
+('telefono', 'Teléfono', 'texto', 1, 1),
+('direccion', 'Dirección', 'texto', 0, 2),
+('ciudad', 'Ciudad', 'texto', 0, 3),
+('sitio_web', 'Sitio Web', 'texto', 0, 4);
+
+-- Asignar valores a los proveedores
+INSERT INTO ProveedorCamposValores (ProveedorId, CampoPersonalizadoId, Valor) VALUES
+-- Acme Corp
+(1, 1, '555-0101'),
+(1, 2, 'Calle 123, Medellín'),
+(1, 3, 'Medellín'),
+(1, 4, 'www.acme.com'),
+
+-- Global Services
+(2, 1, '555-0202'),
+(2, 2, 'Carrera 45, Bogotá'),
+(2, 3, 'Bogotá'),
+
+-- Tech Solutions
+(3, 1, '555-0303'),
+(3, 3, 'Cali');
+
+-- ============================================
+-- CONSULTAS ÚTILES
+-- ============================================
+
+-- Ver todos los proveedores con sus campos personalizados
+SELECT 
+    p.Id,
+    p.Nombre,
+    p.Email,
+    cp.Etiqueta AS Campo,
+    pcv.Valor
+FROM Proveedores p
+LEFT JOIN ProveedorCamposValores pcv ON p.Id = pcv.ProveedorId
+LEFT JOIN CamposPersonalizados cp ON pcv.CampoPersonalizadoId = cp.Id
+WHERE cp.Activo = 1
+ORDER BY p.Id, cp.Orden;
+
+-- Ver estructura pivoteada (como tabla tradicional)
+SELECT 
+    p.Id,
+    p.Nombre,
+    p.Email,
+    MAX(CASE WHEN cp.NombreCampo = 'telefono' THEN pcv.Valor END) AS Telefono,
+    MAX(CASE WHEN cp.NombreCampo = 'direccion' THEN pcv.Valor END) AS Direccion,
+    MAX(CASE WHEN cp.NombreCampo = 'ciudad' THEN pcv.Valor END) AS Ciudad,
+    MAX(CASE WHEN cp.NombreCampo = 'sitio_web' THEN pcv.Valor END) AS SitioWeb
+FROM Proveedores p
+LEFT JOIN ProveedorCamposValores pcv ON p.Id = pcv.ProveedorId
+LEFT JOIN CamposPersonalizados cp ON pcv.CampoPersonalizadoId = cp.Id
+GROUP BY p.Id, p.Nombre, p.Email;
+
+-- Ver qué campos están definidos
+SELECT * FROM CamposPersonalizados WHERE Activo = 1 ORDER BY Orden;
+
+-- ============================================
+-- PROCEDIMIENTO PARA LIMPIAR DATOS HUÉRFANOS
+-- ============================================
+
+CREATE PROCEDURE LimpiarDatosHuerfanos
+AS
+BEGIN
+    -- Eliminar valores de campos que ya no existen
+    DELETE FROM ProveedorCamposValores
+    WHERE CampoPersonalizadoId NOT IN (
+        SELECT Id FROM CamposPersonalizados WHERE Activo = 1
+    );
+END;
+
+-- ============================================
+-- VISTA PARA FACILITAR CONSULTAS
+-- ============================================
+
+CREATE VIEW VistaProveedoresCompleta AS
+SELECT 
+    p.Id AS ProveedorId,
+    p.Nombre,
+    p.Email,
+    p.FechaCreacion,
+    cp.Id AS CampoId,
+    cp.NombreCampo,
+    cp.Etiqueta,
+    cp.TipoDato,
+    pcv.Valor
+FROM Proveedores p
+CROSS JOIN CamposPersonalizados cp
+LEFT JOIN ProveedorCamposValores pcv 
+    ON p.Id = pcv.ProveedorId 
+    AND cp.Id = pcv.CampoPersonalizadoId
+WHERE cp.Activo = 1;
+
+
+
+INSERT INTO Servicios (Nombre, ValorHora, Paises) VALUES
+('Desarrollo Backend .NET', 48.00, 'Colombia,Argentina,Chile'),
+('Desarrollo Frontend React', 46.00, 'Colombia,México,Uruguay'),
+('Administración de Bases de Datos', 52.00, 'Colombia,Perú,Argentina'),
+('Infraestructura Cloud AWS', 68.00, 'Colombia,Brasil,México'),
+('Infraestructura Cloud Azure', 65.00, 'Colombia,Argentina,Chile'),
+('Scrum Master', 55.00, 'Colombia,México,Chile,Argentina'),
+('Product Owner', 58.00, 'Colombia,Argentina,México'),
+('Arquitectura de Software', 82.00, 'Colombia,Chile,Argentina'),
+('Machine Learning', 88.00, 'Colombia,México,Brasil'),
+('Desarrollo Python', 50.00, 'Colombia,Argentina,Perú'),
+('Desarrollo Java', 49.00, 'Colombia,México,Chile'),
+('Auditoría de Seguridad', 76.00, 'Colombia,Argentina,México'),
+('Migración de Sistemas', 62.00, 'Colombia,Chile,Perú'),
+('Integración de APIs', 44.00, 'Colombia,México,Argentina'),
+('Business Intelligence', 56.00, 'Colombia,Chile,México');
+
+
+CREATE PROCEDURE SP_CountServices
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    ;WITH PaisesServicios AS (
+        SELECT 
+            LTRIM(RTRIM(value)) AS Pais,
+            s.Nombre AS Servicio
+        FROM Servicios s
+        CROSS APPLY STRING_SPLIT(s.Paises, ',')
+    )
+    SELECT 
+        Pais,
+        COUNT(DISTINCT Servicio) AS TotalServicios,
+        STRING_AGG(Servicio, ', ') AS Servicios
+    FROM PaisesServicios
+    GROUP BY Pais
+    ORDER BY Pais;
+END;
+GO
+
+EXEC SP_CountServices;
+
+INSERT INTO ProveedorServicios (ProveedorId, ServicioId)
+VALUES 
+(1, 1),
+(1, 2),
+(2, 3),
+(3, 5);
+
+CREATE  PROCEDURE SP_CountClientsForCountries
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    ;WITH PaisesClientes AS (
+        SELECT 
+            LTRIM(RTRIM(value)) AS Pais,
+            ps.ProveedorId,
+            p.Nombre AS Proveedor
+        FROM Servicios s
+        CROSS APPLY STRING_SPLIT(s.Paises, ',')
+        INNER JOIN ProveedorServicios ps ON ps.ServicioId = s.Id
+        INNER JOIN Proveedores p ON p.Id = ps.ProveedorId
+    )
+    SELECT 
+        pc.Pais,
+        COUNT(DISTINCT pc.ProveedorId) AS CantidadProveedores,
+        (
+            SELECT STRING_AGG(p2.Proveedor, ', ')
+            FROM (
+                SELECT DISTINCT p3.Proveedor
+                FROM PaisesClientes p3
+                WHERE p3.Pais = pc.Pais
+            ) AS p2
+        ) AS Proveedores
+    FROM PaisesClientes pc
+    GROUP BY pc.Pais
+    ORDER BY pc.Pais;
+END;
+GO
+
+
+EXEC SP_CountClientsForCountries;
