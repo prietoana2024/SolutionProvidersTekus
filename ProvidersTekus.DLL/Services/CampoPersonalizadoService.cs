@@ -69,6 +69,7 @@ namespace ProvidersTekus.DLL.Services
             return await _context.CamposPersonalizados
               .Where(c => c.Activo)
               .OrderBy(c => c.Orden)
+              .Include(c => c.ProveedorCamposValores)
               .ToListAsync();
         }
     }

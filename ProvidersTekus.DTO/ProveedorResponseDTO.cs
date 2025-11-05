@@ -9,7 +9,13 @@ namespace ProvidersTekus.DTO
 {
     public class ProveedorResponseDTO
     {
-        public List<CamposPersonalizado> CamposDisponibles { get; set; }
-        public List<Dictionary<string, object>> Proveedores { get; set; }
+        public int Id { get; set; }
+        public string Nit { get; set; }
+        public string Nombre { get; set; }
+        public string Email { get; set; }
+
+        public Dictionary<string, string> CamposPersonalizados { get; set; }
+
+        public List<ServicioDTO> Servicios { get; set; }
     }
 }

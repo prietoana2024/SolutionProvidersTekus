@@ -17,6 +17,12 @@ namespace ProvidersTekus.UTILITY
             CreateMap<Proveedore, Dictionary<string, object>>().
                 ConvertUsing < ProveedorToDictionaryConverter > ();
 
+            CreateMap<Proveedore, ProveedorResponseDTO>()
+    .ForMember(dest => dest.CamposPersonalizados,
+        opt => opt.MapFrom<CamposPersonalizadosResolver>())
+    .ForMember(dest => dest.Servicios,
+        opt => opt.MapFrom(src => src.ProveedorServicios.Select(ps => ps.Servicio)));
+
             #endregion
 
             #region Servicio

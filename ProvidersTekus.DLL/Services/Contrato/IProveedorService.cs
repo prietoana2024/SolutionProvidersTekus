@@ -10,8 +10,8 @@ namespace ProvidersTekus.DLL.Services.Contrato
 {
     public interface IProveedorService
     {
-        Task<ProveedorResponseDTO> ObtenerTodosAsync();
-        Task<Dictionary<string, object>> ObtenerPorIdAsync(int id);
+        Task<List<ProveedorResponseDTO>> ObtenerTodosAsync();
+        Task<ProveedorResponseDTO> ObtenerPorIdAsync(int id);
         Task<Proveedore> CrearAsync(ProveedorDTO dto);
         Task<bool> ActualizarAsync(int id, ProveedorDTO dto);
         Task<bool> EliminarAsync(int id);
