@@ -134,49 +134,6 @@ namespace ProvidersTekus.DLL.Services
         }
 
 
-        /*
-        private async Task GuardarCamposPersonalizadosAsync(int proveedorId, Dictionary<string, string> campos)
-        {
-            if (campos == null) return;
-
-            var camposDefinidos = await _context.CamposPersonalizados.ToListAsync();
-
-            foreach (var campo in camposDefinidos)
-            {
-                if (campos.ContainsKey(campo.NombreCampo))
-                {
-                    _context.ProveedorCamposValores.Add(new ProveedorCamposValore
-                    {
-                        ProveedorId = proveedorId,
-                        CampoPersonalizadoId = campo.Id,
-                        Valor = campos[campo.NombreCampo] ?? ""
-                    });
-                }
-            }
-
-            await _context.SaveChangesAsync();
-        }*/
-
-        /*
-        public async Task<Proveedore> CrearAsync(ProveedorDTO dto)
-        {
-            var proveedor = new Proveedore
-            {
-                Nit=dto.Nit,
-                Nombre = dto.Nombre,
-             //ProveedorServicios=dto.Servicios,
-                Email = dto.Email,
-                FechaCreacion = DateTime.UtcNow
-            };
-
-            _context.Proveedores.Add(proveedor);
-            await _context.SaveChangesAsync();
-
-            // Guardar campos personalizados
-            await GuardarCamposPersonalizadosAsync(proveedor.Id, dto.CamposPersonalizados);
-
-            return proveedor;
-        }*/
         public async Task<Proveedore> CrearAsync(ProveedorDTO dto)
         {
             if (string.IsNullOrWhiteSpace(dto.Nit))
@@ -253,54 +210,6 @@ namespace ProvidersTekus.DLL.Services
 
             return _mapper.Map<ProveedorResponseDTO>(proveedor);
         }
-        /*
-        public async Task<Dictionary<string, object>> ObtenerPorIdAsync(int id)
-        {
-            var proveedor = await _context.Proveedores
-                       .Include(p => p.ProveedorCamposValores)
-                       .ThenInclude(v => v.CampoPersonalizado)
-                       .FirstOrDefaultAsync(p => p.Id == id);
-
-            if (proveedor == null) return null;
-
-            var camposDisponibles = await _context.CamposPersonalizados
-                .Where(c => c.Activo)
-                .OrderBy(c => c.Orden)
-                .ToListAsync();
-
-            return _mapper.Map<Dictionary<string,object>>(proveedor, opts=>
-            {
-                opts.Items["CamposDisponibles"] = camposDisponibles;
-            });
-        }*/
-
-        /*public async Task<ProveedorResponseDTO> ObtenerTodosAsync()
-        {
-                    var proveedores = await _context.Proveedores
-             .Include(p => p.ProveedorServicios)
-                 .ThenInclude(ps => ps.Servicio)
-             .Include(p => p.ProveedorCamposValores)
-                 .ThenInclude(pcv => pcv.CampoPersonalizado)
-             .ToListAsync();
-
-            var camposDisponibles = await _context.CamposPersonalizados
-                 .AsNoTracking()
-                .Where(c => c.Activo)
-                .OrderBy(c => c.Orden)
-                .ToListAsync();
-
-            var resultado = proveedores.Select(p => _mapper.Map<Dictionary<string,object>>(p, opts =>
-            {
-                opts.Items["CamposDisponibles"]=camposDisponibles;
-            })).ToList();
-
-            return new ProveedorResponseDTO
-            {
-                CamposPersonalizados = camposDisponibles,
-                Proveedores = resultado
-            };
-        }
-        */
         public async Task<List<ProveedorResponseDTO>> ObtenerTodosAsync()
         {
             var proveedores = await _context.Proveedores
